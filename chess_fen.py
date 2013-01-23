@@ -126,7 +126,6 @@ if s_fen:
 stdout = None
 if os.environ.get('TEST_ANKI_FEN_VERBOSE', 0):
   stdout = sys.stdout
-
   
 #
 # Anki mode
@@ -144,14 +143,14 @@ regexps = {
 
 def fen_mungeQA(html, type, fields, model, data, col):
   for match in regexps['fen'].finditer(html):
-		s_file = fen_to_file(match.group('notation'), col.media.dir(), stdout)
-		px_width = 8 * px_cell_width
-		s_img  = '<img src="%s" width="%d" height="%d" border="1" />' % (s_file, px_width, px_width)
-		if regexps['side_to_move'].search( match.group('notation') ).group() == 'b':
-			s_to_move = 'Black to move.'
-		else:
-			s_to_move = 'White to move.'
-		html = html.replace(match.group(), s_img + '<br/>' + s_to_move)
-	return html
-	
+    s_file = fen_to_file(match.group('notation'), col.media.dir(), stdout)
+    px_width = 8 * px_cell_width
+    s_img = '<img src="%s" width="%d" height="%d" border="1" />' % (s_file, px_width, px_width)
+    if regexps['side_to_move'].search( match.group('notation') ).group() == 'b':
+      s_to_move = 'Black to move.'
+    else:
+      s_to_move = 'White to move.'
+    html = html.replace(match.group(), s_img + '<br/>' + s_to_move)
+  return html
+
 addHook("mungeQA", fen_mungeQA)
